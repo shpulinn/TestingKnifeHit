@@ -32,7 +32,7 @@ namespace Game {
             if (collision.gameObject.CompareTag("Wood")) {
                 _rb.velocity = Vector2.zero;
                 _rb.transform.parent = collision.transform;
-                inWood = true;
+                inWood = true; // if another object collide with one with inWood true > game over
                 animator.SetBool("inWood", true);
                 score.value++;
                 woodHitSound.Play();
@@ -54,16 +54,14 @@ namespace Game {
 
         private IEnumerator AppleDestroyCoroutine(Collider2D col) {
             Destroy(col.gameObject);
-            var aL = Instantiate(appleLeft, transform);
-            aL.transform.parent = null;
-            var aR = Instantiate(appleRight, transform);
+            var aL = Instantiate(appleLeft, transform); // left half of Apple
+            var aR = Instantiate(appleRight, transform); // right half of Apple
+            aL.transform.parent = null; //remove parent for right gravity
             aR.transform.parent = null;
-            aL.GetComponent<Rigidbody2D>().AddForce(Vector2.down, ForceMode2D.Force);
             aL.GetComponent<Rigidbody2D>().AddForce(Vector2.right, ForceMode2D.Impulse);
-            aR.GetComponent<Rigidbody2D>().AddForce(Vector2.down, ForceMode2D.Force);
             aR.GetComponent<Rigidbody2D>().AddForce(Vector2.left, ForceMode2D.Impulse);
             float randForce = Random.Range(2f, 6f);
-            for (float i = 0; i < 60; i += randForce) {
+            for (float i = 0; i < 60; i += randForce) { //rotates apple halfs while falling
                 aL.transform.Rotate(0, 0, i);
                 aR.transform.Rotate(0, 0, i);
                 yield return new WaitForSeconds(0.1f);
