@@ -7,9 +7,9 @@ using UnityEngine.UI;
 namespace Game {
     public class Knife : MonoBehaviour {
 
-        public Rigidbody2D _rb;
-        public bool inWood;
-        public GameObject appleLeft;
+        public Rigidbody2D _rb; // knife rigitbody
+        public bool inWood; // for knifes stucked in wood
+        public GameObject appleLeft; 
         public GameObject appleRight;
         public ScriptableIntValue score;
         public GameObject resultScreen;
@@ -31,7 +31,7 @@ namespace Game {
 
             if (collision.gameObject.CompareTag("Wood")) {
                 _rb.velocity = Vector2.zero;
-                _rb.transform.parent = collision.transform;
+                _rb.transform.parent = collision.transform; // now knife stucked in wood spins with the wood
                 inWood = true; // if another object collide with one with inWood true > game over
                 animator.SetBool("inWood", true);
                 score.value++;
@@ -49,19 +49,19 @@ namespace Game {
 
         private void AppleDestroy(Collider2D col) {
             StartCoroutine(AppleDestroyCoroutine(col));
-            score.value += 4;
+            score.value += 4; // +1 point for wood hit
         }
 
         private IEnumerator AppleDestroyCoroutine(Collider2D col) {
-            Destroy(col.gameObject);
+            Destroy(col.gameObject); // destroys apple
             var aL = Instantiate(appleLeft, transform); // left half of Apple
             var aR = Instantiate(appleRight, transform); // right half of Apple
             aL.transform.parent = null; //remove parent for right gravity
             aR.transform.parent = null;
-            aL.GetComponent<Rigidbody2D>().AddForce(Vector2.right, ForceMode2D.Impulse);
+            aL.GetComponent<Rigidbody2D>().AddForce(Vector2.right, ForceMode2D.Impulse); // apple halfs floating in separate directions
             aR.GetComponent<Rigidbody2D>().AddForce(Vector2.left, ForceMode2D.Impulse);
-            float randForce = Random.Range(2f, 6f);
-            for (float i = 0; i < 60; i += randForce) { //rotates apple halfs while falling
+            float randSpeed = Random.Range(2f, 6f); // random speed of spin
+            for (float i = 0; i < 60; i += randSpeed) { //rotates apple halfs while falling
                 aL.transform.Rotate(0, 0, i);
                 aR.transform.Rotate(0, 0, i);
                 yield return new WaitForSeconds(0.1f);

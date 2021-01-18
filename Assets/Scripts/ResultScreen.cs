@@ -16,9 +16,7 @@ namespace UI {
         public GameObject gameScreen;
 
         private void Start() {
-            scoreLabel.text = score.value.ToString();
-            //gameScreen = GameObject.Find("GameScreen");
-            //gameScreen.SetActive(false);
+            scoreLabel.text = score.value.ToString(); // shows value of points received on result screen
         }
 
 
@@ -28,13 +26,13 @@ namespace UI {
         }
 
         public void OnRestartButtonClick() {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            Destroy(gameObject);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // reload game scene
+            Destroy(gameObject); //destroys resultscreen
             score.value = 0;
         }
 
         public void OnMenuButtonClick() {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); // load menu scene
             Destroy(gameObject);
             score.value = 0;
         } 

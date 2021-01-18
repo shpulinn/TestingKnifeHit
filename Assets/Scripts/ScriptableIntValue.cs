@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+// scriptable int value for storage of score value
 
 namespace Game {
     [CreateAssetMenu(fileName = "ScriptableIntValue", menuName = "ScriptableObjects/ScriptableIntValue")]
