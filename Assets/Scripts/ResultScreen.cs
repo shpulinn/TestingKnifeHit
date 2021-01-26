@@ -14,6 +14,8 @@ namespace UI {
         public Button restartButton;
         public Button menuButton;
         public GameObject gameScreen;
+        public GameObject bestScoreLabel;
+        private bool bestScoreActive = false;
 
         private void Start() {
             scoreLabel.text = score.value.ToString(); // shows value of points received on result screen
@@ -23,6 +25,13 @@ namespace UI {
         private void Awake() {
             restartButton.onClick.AddListener(OnRestartButtonClick);
             menuButton.onClick.AddListener(OnMenuButtonClick);
+            bestScoreLabel.SetActive(false);
+            if (!bestScoreActive && score.value > PlayerPrefs.GetInt("ScoreInt")) {
+                PlayerPrefs.SetInt("ScoreInt", score.value);
+                PlayerPrefs.Save();
+                bestScoreLabel.SetActive(true);
+                bestScoreActive = true;
+            }
         }
 
         public void OnRestartButtonClick() {
